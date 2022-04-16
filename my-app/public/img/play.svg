@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 32</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Osum-Home-v1" transform="translate(-674.000000, -496.000000)">
+            <g id="Group-32" transform="translate(674.000000, 496.000000)">
+                <circle id="Oval" stroke="#FFE100" stroke-width="2" fill="#FFE100" cx="11" cy="11" r="10"></circle>
+                <path d="M12.8479983,8.35679729 L16.0437507,13.4700011 C16.336461,13.9383376 16.1940878,14.555288 15.7257513,14.8479983 C15.5668197,14.9473306 15.3831721,15 15.1957524,15 L8.80424764,15 C8.25196289,15 7.80424764,14.5522847 7.80424764,14 C7.80424764,13.8125803 7.85691709,13.6289327 7.95624934,13.4700011 L11.1520017,8.35679729 C11.444712,7.88846076 12.0616624,7.74608759 12.5299989,8.03879792 C12.6587681,8.11927863 12.7675176,8.22802815 12.8479983,8.35679729 Z" id="Triangle" fill="#1D2C35" transform="translate(12.000000, 11.000000) rotate(90.000000) translate(-12.000000, -11.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

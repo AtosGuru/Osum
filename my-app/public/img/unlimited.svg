@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>unlimited-revisions</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-App-LP" transform="translate(-226.000000, -1005.000000)">
+            <g id="unlimited-revisions" transform="translate(226.000000, 1005.000000)">
+                <rect id="Rectangle-Copy-17" x="0" y="0" width="44" height="44"></rect>
+                <g id="Group-5" transform="translate(2.000000, 13.000000)" stroke="#1D2C35" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3256">
+                    <path d="M18.517737,11.2364756 L12.243457,17.4923855 C10.6138665,19.1172048 7.97231446,19.1172048 6.34331779,17.4923855 L1.2217475,12.3858103 C-0.407249168,10.7609909 -0.407249168,8.12776501 1.2217475,6.50353777 L6.34331779,1.39637043 C7.97231446,-0.227856811 10.6138665,-0.227856811 12.243457,1.39637043 L20.3148,9.44467402" id="Stroke-1"></path>
+                    <path d="M22.1112692,7.65331657 L28.386143,1.39681454 C30.0157335,-0.228004845 32.6566917,-0.228004845 34.2856883,1.39681454 L39.4078525,6.50398187 C41.0368492,8.12820912 41.0368492,10.761435 39.4078525,12.3862544 L34.2856883,17.4928296 C32.6566917,19.1170568 30.0157335,19.1170568 28.386143,17.4928296 L20.3148,9.44452598" id="Stroke-3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

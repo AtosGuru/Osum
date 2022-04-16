@@ -1,0 +1,113 @@
+.sp-easy-accordion * {
+    box-sizing: border-box;
+}
+
+.eap_section_title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 30px
+}
+
+.sp-easy-accordion a:focus, .sp-easy-accordion a {
+    box-shadow: none!important;
+    outline: none
+}
+
+.sp-easy-accordion .ea-header:before {
+    content: none
+}
+
+.sp-easy-accordion .ea-header {
+    margin-top: 0
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header {
+    margin-bottom: 0
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header a {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    color: #444;
+    font-size: 20px;
+    line-height: 30px;
+    box-shadow: none
+}
+
+.sp-easy-accordion .ea-card {
+    border: none;
+    border-radius: 0
+}
+
+.sp-easy-accordion .sp-ea-single .ea-header a .ea-expand-icon {
+    color: #444;
+    margin-right: 10px;
+    text-align: center;
+    line-height: inherit;
+    font-size: 20px
+}
+
+.sp-easy-accordion .sp-ea-single {
+    background: #efefef;
+    margin-bottom: 10px;
+    border-radius: 3px
+}
+
+.sp-easy-accordion .sp-ea-single .ea-body {
+    padding: 15px;
+    background: #fff;
+    border-top: none
+}
+
+.sp-easy-accordion .sp-ea-single .ea-body p:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.sp-easy-accordion>.sp-ea-single>.sp-collapse>.ea-body p:first-of-type{
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-body {
+    padding: 15px
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-header a {
+    padding: 15px;
+    color: #444;
+}
+
+.sp-ea-one.sp-easy-accordion .sp-ea-single .ea-header a .ea-expand-icon {
+    color: #444;
+    font-size: 20px
+}
+
+.ea-youtube-wraper {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.ea-youtube-wraper iframe, .ea-youtube-wraper object, .ea-youtube-wraper embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.spcollapse:not(.show) {
+    display: none
+}
+
+.spcollapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 0.5s;
+    transition-timing-function: linear
+}
