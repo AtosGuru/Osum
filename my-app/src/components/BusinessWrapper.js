@@ -12,7 +12,7 @@ export default class BusinessWrapper extends Component {
 						<div className="row">
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<Fade bottom>
-								<div className="business-heading aos-init aos-animate" dataAos="fade-up">
+								<div className="business-heading aos-init aos-animate" dataaos="fade-up">
 									<h2 className="heading">
 										These are the basics you <span>need to follow to connect </span>
 										<span>with more customers.</span>
@@ -27,7 +27,7 @@ export default class BusinessWrapper extends Component {
 								</div>
 								</Fade>
 								<Fade bottom>
-								<div className="business-info aos-init aos-animate" dataAos="fade-up">
+								<div className="business-info aos-init aos-animate" dataaos="fade-up">
 									<ul className="listing-sec">
 										<li>
 											<label>
@@ -63,11 +63,11 @@ export default class BusinessWrapper extends Component {
 								</div>
 								</Fade>
 								<Fade bottom>
-								<div className="lets-Talk aos-init aos-animate" dataAos="fade-up">
+								<div className="lets-Talk aos-init aos-animate" dataaos="fade-up">
 									<h3 className="heading">
 										We understand &amp; <span>We can help!</span>
 									</h3>
-									<button className="btn btn-normal" onClick="openChat();">
+									<button className="btn btn-normal" >
 										<span>
 											Let’s Talk
 											<img

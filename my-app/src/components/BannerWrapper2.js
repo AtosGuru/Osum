@@ -1,6 +1,29 @@
 import React, { Component } from 'react';
 
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+
 export default class BannerWrapper2 extends Component {
+	constructor() {
+		super();
+		this.state = {
+			curIndex: '',
+			curImg: 'img/landing-header-1.png',
+			interStopped: false
+		};
+		this.state.curInterval = setInterval(() => {
+			if (this.state.interStopped == false) {
+				const cur = (this.state.curIndex + 1) % 3;
+				var img = [ 'img/landing-header-1.png', 'img/landing-header-2.png', 'img/landing-header-3.png' ];
+				this.setState({
+					curImg: img[cur],
+					curIndex: cur
+				});
+			}
+		}, 3000);
+	}
+
 	render() {
 		return (
 			<div>
@@ -34,7 +57,9 @@ export default class BannerWrapper2 extends Component {
 									<div className="banner-content">
 										<h1 className="title title-landing">
 											Give your app idea a
-											<span>winning identity.</span>
+											<p>
+												<span>winning identity.</span>
+											</p>
 										</h1>
 										<h2 className="sub-title subtitle-landing">
 											We design amazing user experiences <span>that win over your customers</span>
@@ -143,117 +168,33 @@ export default class BannerWrapper2 extends Component {
 								{/* Col */}
 								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 posStatic">
 									<div className="landing-graphic-banner">
-										<div id="landingSlider" className="owl-carousel owl-theme owl-loaded owl-drag">
-											<div className="owl-stage-outer">
-												<div
-													className="owl-stage"
-													style={{
-														transform: 'translate3d(-2589px, 0px, 0px)',
-														transition: 'all 0s ease 0s',
-														width: '6041px'
-													}}
-												>
-													<div className="owl-item cloned" style={{ width: '863px' }}>
-														<div className="item">
+										<div id="landingSlider" className="">
+											<div className="">
+												<div className="">
+													<div className="" style={{ width: '863px', left: '863px' }}>
+														<div
+															className="item"
+															onMouseEnter={() => {
+																this.setState({ interStopped: true });
+															}}
+															onMouseLeave={() => {
+																this.setState({ interStopped: false });
+															}}
+														>
 															<img
-																src="img/landing-header-2.png"
-																className="img-fluid"
+																className="fadeEffect"
+																src={this.state.curImg}
 																alt=""
 																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div className="owl-item cloned" style={{ width: '863px' }}>
-														<div className="item">
-															<img
-																src="img/landing-header-3.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div
-														className="owl-item animated owl-animated-out fadeOut"
-														style={{ width: '863px', left: '863px' }}
-													>
-														<div className="item">
-															<img
-																src="img/landing-header-1.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div
-														className="owl-item animated owl-animated-in fadeIn active"
-														style={{ width: '863px' }}
-													>
-														<div className="item">
-															<img
-																src="img/landing-header-2.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div className="owl-item" style={{ width: '863px' }}>
-														<div className="item">
-															<img
-																src="img/landing-header-3.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div className="owl-item cloned" style={{ width: '863px' }}>
-														<div className="item">
-															<img
-																src="img/landing-header-1.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
-															/>
-														</div>
-													</div>
-													<div className="owl-item cloned" style={{ width: '863px' }}>
-														<div className="item">
-															<img
-																src="img/landing-header-2.png"
-																className="img-fluid"
-																alt=""
-																title=""
-																data-xblocker="passed"
-																style={{ visibility: 'visible' }}
+																style={{
+																	transition: 'opacity 1.5s',
+																	opacity: '1'
+																}}
 															/>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div className="owl-nav disabled">
-												<button type="button" role="presentation" className="owl-prev">
-													<span aria-label="Previous">‹</span>
-												</button>
-												<button type="button" role="presentation" className="owl-next">
-													<span aria-label="Next">›</span>
-												</button>
-											</div>
-											<div className="owl-dots disabled" />
 										</div>
 									</div>
 								</div>

@@ -9,7 +9,7 @@ export default class FormWrapper extends Component {
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="formHeading-top">
-									<h2 class="heading aos-init aos-animate" dataAos="fade-up">
+									<h2 class="heading aos-init aos-animate" dataaos="fade-up">
 										Discovery Form
 										<span class="smallHead MT12">
 											Put energy into a good Creative Brief<span> and you’ll get creative energy out from Osum Team.</span>
@@ -21,7 +21,7 @@ export default class FormWrapper extends Component {
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-section-block">
-									<h3 class="smallText aos-init aos-animate" dataAos="fade-up">
+									<h3 class="smallText aos-init aos-animate" dataaos="fade-up">
 										Choose Service
 									</h3>
 									<div class="formTabs-section" id="tabsSlide">
@@ -29,7 +29,7 @@ export default class FormWrapper extends Component {
 											class="nav nav-pills aos-init aos-animate"
 											id="pills-tab"
 											role="tablist"
-											dataAos="fade-up"
+											dataaos="fade-up"
 										>
 											<div
 												class="slider"
@@ -94,7 +94,7 @@ export default class FormWrapper extends Component {
 										<div
 											class="tab-content aos-init aos-animate"
 											id="pills-tabContent"
-											dataAos="fade-up"
+											dataaos="fade-up"
 										>
 											<div
 												class="tab-pane fade show active"
@@ -102,7 +102,7 @@ export default class FormWrapper extends Component {
 												role="tabpanel"
 												aria-labelledby="pills-home-tab"
 											>
-												<div class="form-middle-box aos-init aos-animate" dataAos="fade-up">
+												<div class="form-middle-box aos-init aos-animate" dataaos="fade-up">
 													<div class="formHeading">
 														<h2 class="headFirst">Branding Questionnaire</h2>
 														<h3 class="headSecond">
@@ -113,7 +113,7 @@ export default class FormWrapper extends Component {
 														<h3 class="headThird">Let's get started!</h3>
 													</div>
 												</div>
-												<div class="form-field-block aos-init aos-animate" dataAos="fade-up">
+												<div class="form-field-block aos-init aos-animate" dataaos="fade-up">
 													<link
 														rel="stylesheet"
 														id="formidable-css"
@@ -751,7 +751,7 @@ export default class FormWrapper extends Component {
 												role="tabpanel"
 												aria-labelledby="pills-profile-tab"
 											>
-												<div class="form-middle-box aos-init aos-animate" dataAos="fade-up">
+												<div class="form-middle-box aos-init aos-animate" dataaos="fade-up">
 													<div class="formHeading">
 														<h2 class="headFirst">App Designs Questionnaire</h2>
 														<h3 class="headSecond">
@@ -762,7 +762,7 @@ export default class FormWrapper extends Component {
 														<h3 class="headThird">Let's get started!</h3>
 													</div>
 												</div>
-												<div class="form-field-block aos-init aos-animate" dataAos="fade-up">
+												<div class="form-field-block aos-init aos-animate" dataaos="fade-up">
 													<div
 														class="frm_forms  with_frm_style frm_style_formidable-style"
 														id="frm_form_2_container"
@@ -1472,7 +1472,7 @@ export default class FormWrapper extends Component {
 												role="tabpanel"
 												aria-labelledby="pills-contact-tab"
 											>
-												<div class="form-middle-box aos-init aos-animate" dataAos="fade-up">
+												<div class="form-middle-box aos-init aos-animate" dataaos="fade-up">
 													<div class="formHeading">
 														<h2 class="headFirst">Website Questionnaire</h2>
 														<h3 class="headSecond">
@@ -1483,7 +1483,7 @@ export default class FormWrapper extends Component {
 														<h3 class="headThird">Let's get started!</h3>
 													</div>
 												</div>
-												<div class="form-field-block aos-init aos-animate" dataAos="fade-up">
+												<div class="form-field-block aos-init aos-animate" dataaos="fade-up">
 													<div
 														class="frm_forms  with_frm_style frm_style_formidable-style"
 														id="frm_form_5_container"
@@ -2351,7 +2351,7 @@ export default class FormWrapper extends Component {
 												role="tabpanel"
 												aria-labelledby="pills-contact-tab"
 											>
-												<div class="form-middle-box aos-init aos-animate" dataAos="fade-up">
+												<div class="form-middle-box aos-init aos-animate" dataaos="fade-up">
 													<div class="formHeading">
 														<h2 class="headFirst">Partnership Questionnaire</h2>
 														<h3 class="headSecond">
@@ -2362,7 +2362,7 @@ export default class FormWrapper extends Component {
 														<h3 class="headThird">Let's get started!</h3>
 													</div>
 												</div>
-												<div class="form-field-block aos-init aos-animate" dataAos="fade-up">
+												<div class="form-field-block aos-init aos-animate" dataaos="fade-up">
 													<div
 														class="frm_forms  with_frm_style frm_style_formidable-style"
 														id="frm_form_11_container"

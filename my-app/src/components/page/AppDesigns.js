@@ -12,7 +12,7 @@ export default class AppDesigns extends Component {
   render() {
     return (
       <div className="a-landing">
-         <Header/>
+         <Header isWhite={true}/>
          <main id="site-content" role="main">
             <BannerWrapper2 />
             <BusinessWrapper2/>

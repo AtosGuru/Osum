@@ -7,13 +7,12 @@ export default class Footer extends Component {
 		return (
 			<div>
 				<footer id="site-footer" role="contentinfo" className="header-footer-group">
-					<section className="footer-wrapper 
-    footer-bg">
+					<section className="footer-wrapper footer-bg">
 						<div className="container">
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-3">
 									<Fade bottom>
-										<div className="companySection aos-init" dataAos="fade-up">
+										<div className="companySection aos-init" dataaos="fade-up">
 											<div className="footer-logo">
 												<img src="img/footer-logo.png" className="img-fluid" alt="" title="" />
 												<span>
@@ -45,7 +44,7 @@ export default class Footer extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-3 col-lg-4-first">
 									<Fade bottom>
-										<div className="footerServices aos-init" dataAos="fade-up">
+										<div className="footerServices aos-init" dataaos="fade-up">
 											<div className="footerBlock">
 												<h3>Services</h3>
 												<ul className="footer-links">
@@ -79,13 +78,13 @@ export default class Footer extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-3 col-lg-4-second">
 									<Fade bottom>
-										<div className="footerServices PL0 aos-init" dataAos="fade-up">
+										<div className="footerServices PL0 aos-init" dataaos="fade-up">
 											<div className="footerBlock">
 												<h3>Products</h3>
 												<ul className="footer-links">
 													<li>
 														<a
-															href="https://themeforest.net/item/bose-new-publishing-app-template-in-html-5-framework-7/26131742"
+															href="#"
 															target="blank"
 														>
 															Bose - News Publishing App
@@ -93,7 +92,7 @@ export default class Footer extends Component {
 													</li>
 													<li>
 														<a
-															href="https://themeforest.net/item/the-character-one-pager-templates-for-professionals-in-html-5/26160950"
+															href="#"
 															target="blank"
 														>
 															The Character - Personalised Portfolio
@@ -101,7 +100,7 @@ export default class Footer extends Component {
 													</li>
 													<li>
 														<a
-															href="https://themeforest.net/item/mobile-app-templates-blogs-in-html/23036668"
+															href="#"
 															target="blank"
 														>
 															MAT - Personal Blogging App
@@ -109,7 +108,7 @@ export default class Footer extends Component {
 													</li>
 													<li>
 														<a
-															href="https://themeforest.net/item/w-mobile-and-app-blogging-templates-for-food-and-restaurants/24017091"
+															href="#"
 															target="blank"
 														>
 															W. Food &amp; Restaurant's App
@@ -117,7 +116,7 @@ export default class Footer extends Component {
 													</li>
 													<li>
 														<a
-															href="https://themeforest.net/item/stencil-creative-multipurpose-html-theme/23529882"
+															href="#"
 															target="blank"
 														>
 															Stencil - Shop, Blog &amp; Portfolio
@@ -125,7 +124,7 @@ export default class Footer extends Component {
 													</li>
 													<li>
 														<a
-															href="https://themeforest.net/item/fashion-shop-mobile-app-in-sketch/29716093"
+															href="#"
 															target="blank"
 														>
 															Fashion Shop App
@@ -138,10 +137,10 @@ export default class Footer extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-3 col-lg-4-first">
 									<Fade bottom>
-										<div className="footerSocial aos-init" dataAos="fade-up">
+										<div className="footerSocial aos-init" dataaos="fade-up">
 											<ul className="footer-links">
 												<li>
-													<a href="https://www.facebook.com/osumstudio" target="blank">
+													<a href="#" target="blank">
 														<img
 															src="img/facebook.svg"
 															className="img-fluid imgFirst"
@@ -157,7 +156,7 @@ export default class Footer extends Component {
 													</a>
 												</li>
 												<li>
-													<a href="https://www.instagram.com/osum.studio/" target="blank">
+													<a href="#" target="blank">
 														<img
 															src="img/insta.svg"
 															className="img-fluid imgFirst"
@@ -216,7 +215,7 @@ export default class Footer extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<Fade bottom>
-										<div className="copyright-section aos-init" dataAos="fade-up">
+										<div className="copyright-section aos-init" dataaos="fade-up">
 											<p>Copyright ©2022 Osum Studio PVT. LTD. All Rights Reserved.</p>
 										</div>
 									</Fade>

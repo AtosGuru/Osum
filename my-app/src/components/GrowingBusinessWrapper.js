@@ -11,7 +11,7 @@ export default class GrowingBusinessWrapper extends Component {
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<Fade bottom>
-										<h2 className="heading aos-init" dataAos="fade-up">
+										<h2 className="heading aos-init" dataaos="fade-up">
 											Ready to start<span> growning your business?</span>
 											<span> Let’s connect.</span>
 										</h2>
@@ -24,7 +24,7 @@ export default class GrowingBusinessWrapper extends Component {
 										<div className="connect-steps">
 											<div className="step-detail">
 												<Fade bottom>
-													<div className="step-de-line aos-init" dataAos="fade-up">
+													<div className="step-de-line aos-init" dataaos="fade-up">
 														<span className="step-num">1</span>
 														<h2>Schedule a meeting</h2>
 														<p>
@@ -57,7 +57,7 @@ export default class GrowingBusinessWrapper extends Component {
 											</div>
 											<div className="step-detail MT70">
 												<Fade bottom>
-													<div className="step-de-line stepRight aos-init" dataAos="fade-up">
+													<div className="step-de-line stepRight aos-init" dataaos="fade-up">
 														<span className="step-num">2</span>
 														<h2>Discuss on call</h2>
 														<p>
@@ -69,7 +69,7 @@ export default class GrowingBusinessWrapper extends Component {
 												</Fade>
 
 												<Fade bottom>
-													<ul className="discussCall-sec aos-init" dataAos="fade-up">
+													<ul className="discussCall-sec aos-init" dataaos="fade-up">
 														<li>
 															<label>
 																<img
@@ -133,7 +133,7 @@ export default class GrowingBusinessWrapper extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 									<Fade bottom>
-										<div className="quickConnect aos-init" dataAos="fade-up">
+										<div className="quickConnect aos-init" dataaos="fade-up">
 											<h2 className="headingNew ">Quick contact</h2>
 											<label>
 												Fill up the details below &amp; We will get in touch with you as soon as
@@ -262,14 +262,14 @@ export default class GrowingBusinessWrapper extends Component {
 							</div>
 							{/* <div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-									<div className="line-angle MT85 aos-init" dataAos="fade-up">
+									<div className="line-angle MT85 aos-init" dataaos="fade-up">
 										<img src="img/line-icon.png" className="img-fluid" alt="" title="" />
 									</div>
 								</div>
 							</div>
 							<div className="row flex-column-reverse flex-md-row pad22">
 								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
-									<div className="bookSectionLeft aos-init" dataAos="fade-up">
+									<div className="bookSectionLeft aos-init" dataaos="fade-up">
 										<div className="brand-leftSec parallax-inner c-example__tilt-inner">
 											<div
 												className="brand-image parallax [ c-example__tilt ] js-tilt"
@@ -338,8 +338,8 @@ export default class GrowingBusinessWrapper extends Component {
 									</div>
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
-									<div className="brand-RightSec aos-init" dataAos="fade-up">
-										<div className="completeGuide aos-init" dataAos="fade-up">
+									<div className="brand-RightSec aos-init" dataaos="fade-up">
+										<div className="completeGuide aos-init" dataaos="fade-up">
 											<h3>
 												Get your <span>FREE complete guide</span>
 												<span>to Brand Building ebook.</span>
@@ -381,10 +381,10 @@ export default class GrowingBusinessWrapper extends Component {
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<div className="faq-container">
-										<h2 className="heading aos-init" dataAos="fade-up">
+										<h2 className="heading aos-init" dataaos="fade-up">
 											FAQ
 										</h2>
-										<div className="faq-accordian aos-init" dataAos="fade-up">
+										<div className="faq-accordian aos-init" dataaos="fade-up">
 											<div id="accordion">
 												<div className="card">
 													<div className="card-header" id="heading1">
@@ -523,7 +523,7 @@ export default class GrowingBusinessWrapper extends Component {
 											</div>
 										</div>
 										<div className="converstion-Talk">
-											<div className="lets-Talk aos-init" dataAos="fade-up">
+											<div className="lets-Talk aos-init" dataaos="fade-up">
 												<h3 className="heading">
 													The longer you wait<span> to take action, the more</span>
 													<span> you fall behind.</span>
@@ -535,7 +535,7 @@ export default class GrowingBusinessWrapper extends Component {
 													</span>
 												</h3>
 											</div>
-											<ul className="btnSection aos-init" dataAos="fade-up">
+											<ul className="btnSection aos-init" dataaos="fade-up">
 												<li>
 													<a
 														href="form"
@@ -565,7 +565,7 @@ export default class GrowingBusinessWrapper extends Component {
 													<a href="javascript:void(0)" title="">
 														<button
 															className="btn btn-normal btnYellow"
-															onClick="openChat();"
+															
 														>
 															<span>
 																Let’s Talk

@@ -11,7 +11,7 @@ export default class FeaturedWrapper extends Component {
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
 									<Fade bottom>
-										<div className="feature-left-section aos-init" dataAos="fade-up">
+										<div className="feature-left-section aos-init" dataaos="fade-up">
 											<h2 className="heading">
 												Featured <span>case studies</span>
 											</h2>
@@ -38,7 +38,7 @@ export default class FeaturedWrapper extends Component {
 									<Fade bottom>
 										<ul
 											className="featured-images parallax-inner c-example__tilt-inner aos-init"
-											dataAos="fade-up"
+											dataaos="fade-up"
 										>
 											<li>
 												<span
@@ -149,7 +149,7 @@ export default class FeaturedWrapper extends Component {
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 parallax-inner c-example__tilt-inner">
 									<Fade bottom>
-										<div className="social-images aos-init" dataAos="fade-up">
+										<div className="social-images aos-init" dataaos="fade-up">
 											<span
 												className="parallax [ c-example__tilt ] js-tilt"
 												data-tilt-axis="x"
@@ -212,12 +212,12 @@ export default class FeaturedWrapper extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<Fade bottom>
-										<div className="social-Talk mobHide aos-init" dataAos="fade-up">
+										<div className="social-Talk mobHide aos-init" dataaos="fade-up">
 											<h2>
 												Like what you see?<br />
 												Let’s create one for you.
 											</h2>
-											<button className="btn btn-normal" onClick="openChat();">
+											<button className="btn btn-normal" >
 												<span>
 													Let’s Talk
 													<img
@@ -243,7 +243,7 @@ export default class FeaturedWrapper extends Component {
 							<div className="row">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<Fade bottom>
-										<div className="featured-work aos-init" dataAos="fade-up">
+										<div className="featured-work aos-init" dataaos="fade-up">
 											<h2>
 												Our Work has been<span> featured On:</span>
 											</h2>
@@ -273,7 +273,7 @@ export default class FeaturedWrapper extends Component {
 							<div className="row pad18">
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<Fade bottom>
-										<div className="our-plan-section aos-init" dataAos="fade-up">
+										<div className="our-plan-section aos-init" dataaos="fade-up">
 											<h2 className="heading">Our plan of attack</h2>
 											<label className="sub-heading Pad30">
 												A proven StoryBrand 7<span> framework to build your digital</span>
@@ -286,7 +286,7 @@ export default class FeaturedWrapper extends Component {
 								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 									<div className="plan-steps-section">
 										<Fade bottom>
-											<div className="step-journey aos-init" dataAos="fade-up">
+											<div className="step-journey aos-init" dataaos="fade-up">
 												<label>
 													<img src="img/digital-journet.svg" alt="ff" />
 												</label>
@@ -303,7 +303,7 @@ export default class FeaturedWrapper extends Component {
 										</Fade>
 										<div className="step-detail">
 											<Fade bottom>
-												<div className="step-de-line aos-init" dataAos="fade-up">
+												<div className="step-de-line aos-init" dataaos="fade-up">
 													<span className="step-num">1</span>
 													<h2>Discover</h2>
 													<p>
@@ -340,7 +340,7 @@ export default class FeaturedWrapper extends Component {
 								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 									<div className="plan-steps-section">
 										<Fade bottom>
-											<div className="step-detail aos-init" dataAos="fade-up">
+											<div className="step-detail aos-init" dataaos="fade-up">
 												<div className="step-de-line stepRight">
 													<span className="step-num">2</span>
 													<h2>Design</h2>
@@ -356,7 +356,7 @@ export default class FeaturedWrapper extends Component {
 										</Fade>
 
 										<Fade bottom>
-											<div className="step-detail aos-init" dataAos="fade-up">
+											<div className="step-detail aos-init" dataaos="fade-up">
 												<div className="step-de-line stepThird">
 													<span className="step-num">3</span>
 													<h2>Debut</h2>
@@ -371,7 +371,7 @@ export default class FeaturedWrapper extends Component {
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<Fade bottom>
-										<div className="customer-support aos-init" dataAos="fade-up">
+										<div className="customer-support aos-init" dataaos="fade-up">
 											<label>
 												<img
 													src="img/smili-and-warning.svg"
@@ -396,13 +396,13 @@ export default class FeaturedWrapper extends Component {
 										</div>
 									</Fade>
 									<Fade bottom>
-										<div className="customer-support-talk aos-init" dataAos="fade-up">
+										<div className="customer-support-talk aos-init" dataaos="fade-up">
 											<h3 className="headingNew colFirst">
 												So let us build you<span> an identity your customers</span>
 												<span> will take notice of.</span>
 											</h3>
-											<div className="lets-Talk aos-init" dataAos="fade-up">
-												<button className="btn btn-normal MT55" onClick="openChat();">
+											<div className="lets-Talk aos-init" dataaos="fade-up">
+												<button className="btn btn-normal MT55" >
 													<span>
 														Let’s Talk
 														<img
@@ -434,13 +434,13 @@ export default class FeaturedWrapper extends Component {
 									</Fade>
 									<div className="customer-benefits">
 										<Fade bottom>
-											<h3 className="heading aos-init" dataAos="fade-up">
+											<h3 className="heading aos-init" dataaos="fade-up">
 												You can get many more<span> visitors converted into</span>
 												<span> customers.</span>
 											</h3>
 										</Fade>
 										<Fade bottom>
-											<div className="benefits-list aos-init" dataAos="fade-up">
+											<div className="benefits-list aos-init" dataaos="fade-up">
 												<h3 className="heading colSecond">Benefits</h3>
 												<ul className="benefits-sec">
 													<li>

@@ -4561,7 +4561,8 @@ nav ul li .sub-menu li a.active:after {
 }
 
 .frm_fields_container .needsclick:hover {
-    color: #fff !important background: #1D2C35 !important;
+    color: #fff !important;
+     background: #1D2C35 !important;
 }
 
 .frm_fields_container input[type="text"],
@@ -14073,7 +14074,8 @@ nav ul li .sub-menu li a.active:after {
         padding: 0px;
         text-align: center;
         font-size: 24px;
-        line-height: 32px margin-bottom: 30px;
+        line-height: 32px;
+        margin-bottom: 30px;
     }
     .brand-RightSec .completeGuide h3 span {
         display: block;
@@ -19415,7 +19417,8 @@ nav ul li .sub-menu li a.active:after {
 }
 
 .frm_fields_container .needsclick:hover {
-    color: #fff !important background: #1D2C35 !important;
+    color: #fff !important;
+    background: #1D2C35 !important;
 }
 
 .frm_fields_container input[type="text"],
@@ -29052,7 +29055,8 @@ nav ul li .sub-menu li a.active:after {
         padding: 0px;
         text-align: center;
         font-size: 24px;
-        line-height: 32px margin-bottom: 30px;
+        line-height: 32px;
+        margin-bottom: 30px;
     }
     .brand-RightSec .completeGuide h3 span {
         display: block;

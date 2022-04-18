@@ -9,7 +9,7 @@ export default class PartnerWrapper extends Component {
 						<div className="row">
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<Fade bottom>
-								<div className="digital-heading aos-init aos-animate" dataAos="fade-up">
+								<div className="digital-heading aos-init aos-animate" dataaos="fade-up">
 									<div className="small-logo">
 										<img src="img/logo.png" className="img-fluid" alt="" title="" />
 									</div>
@@ -32,12 +32,12 @@ export default class PartnerWrapper extends Component {
 								</Fade>
 								<div className="trusted-brands">
 									<Fade bottom>
-									<h2 className="heading aos-init aos-animate" dataAos="fade-up">
+									<h2 className="heading aos-init aos-animate" dataaos="fade-up">
 										Trusted by <span>many brands in the world</span>
 									</h2>
 									</Fade>
 									<Fade bottom>
-									<ul className="brand-list aos-init aos-animate" dataAos="fade-up">
+									<ul className="brand-list aos-init aos-animate" dataaos="fade-up">
 										<li>
 											<img
 												src="img/social-success-new.jpg"
@@ -71,15 +71,15 @@ export default class PartnerWrapper extends Component {
 									</Fade>
 									<div className="project-sec">
 										<Fade bottom>
-										<h2 className="heading aos-init" dataAos="fade-up">
+										<h2 className="heading aos-init" dataaos="fade-up">
 											Do you have <span>project in mind?</span>
 										</h2>
 										</Fade>
 										<Fade bottom>
 										<button
 											className="btn btn-normal aos-init"
-											dataAos="fade-up"
-											onClick="openChat();"
+											dataaos="fade-up"
+											
 										>
 											
 											<span>

@@ -15,8 +15,7 @@
  * @todo Test Zepto
  * @todo stagePadding calculate wrong active classes
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates a carousel.
 	 * @class The Owl Carousel.
@@ -25,7 +24,6 @@
 	 * @param {Object} [options] - The options
 	 */
 	function Owl(element, options) {
-
 		/**
 		 * Current settings for the carousel.
 		 * @public
@@ -153,27 +151,35 @@
 		this._states = {
 			current: {},
 			tags: {
-				'initializing': [ 'busy' ],
-				'animating': [ 'busy' ],
-				'dragging': [ 'interacting' ]
+				initializing: [ 'busy' ],
+				animating: [ 'busy' ],
+				dragging: [ 'interacting' ]
 			}
 		};
 
-		$.each([ 'onResize', 'onThrottledResize' ], $.proxy(function(i, handler) {
-			this._handlers[handler] = $.proxy(this[handler], this);
-		}, this));
+		$.each(
+			[ 'onResize', 'onThrottledResize' ],
+			$.proxy(function(i, handler) {
+				this._handlers[handler] = $.proxy(this[handler], this);
+			}, this)
+		);
 
-		$.each(Owl.Plugins, $.proxy(function(key, plugin) {
-			this._plugins[key.charAt(0).toLowerCase() + key.slice(1)]
-				= new plugin(this);
-		}, this));
+		$.each(
+			Owl.Plugins,
+			$.proxy(function(key, plugin) {
+				this._plugins[key.charAt(0).toLowerCase() + key.slice(1)] = new plugin(this);
+			}, this)
+		);
 
-		$.each(Owl.Workers, $.proxy(function(priority, worker) {
-			this._pipe.push({
-				'filter': worker.filter,
-				'run': $.proxy(worker.run, this)
-			});
-		}, this));
+		$.each(
+			Owl.Workers,
+			$.proxy(function(priority, worker) {
+				this._pipe.push({
+					filter: worker.filter,
+					run: $.proxy(worker.run, this)
+				});
+			}, this)
+		);
 
 		this.setup();
 		this.initialize();
@@ -266,184 +272,204 @@
 	/**
 	 * List of workers involved in the update process.
 	 */
-	Owl.Workers = [ {
-		filter: [ 'width', 'settings' ],
-		run: function() {
-			this._width = this.$element.width();
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			cache.current = this._items && this._items[this.relative(this._current)];
-		}
-	}, {
-		filter: [ 'items', 'settings' ],
-		run: function() {
-			this.$stage.children('.cloned').remove();
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var margin = this.settings.margin || '',
-				grid = !this.settings.autoWidth,
-				rtl = this.settings.rtl,
-				css = {
-					'width': 'auto',
-					'margin-left': rtl ? margin : '',
-					'margin-right': rtl ? '' : margin
+	Owl.Workers = [
+		{
+			filter: [ 'width', 'settings' ],
+			run: function() {
+				this._width = this.$element.width();
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function(cache) {
+				cache.current = this._items && this._items[this.relative(this._current)];
+			}
+		},
+		{
+			filter: [ 'items', 'settings' ],
+			run: function() {
+				this.$stage.children('.cloned').remove();
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function(cache) {
+				var margin = this.settings.margin || '',
+					grid = !this.settings.autoWidth,
+					rtl = this.settings.rtl,
+					css = {
+						width: 'auto',
+						'margin-left': rtl ? margin : '',
+						'margin-right': rtl ? '' : margin
+					};
+
+				!grid && this.$stage.children().css(css);
+
+				cache.css = css;
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function(cache) {
+				var width = (this.width() / this.settings.items).toFixed(3) - this.settings.margin,
+					merge = null,
+					iterator = this._items.length,
+					grid = !this.settings.autoWidth,
+					widths = [];
+
+				cache.items = {
+					merge: false,
+					width: width
 				};
 
-			!grid && this.$stage.children().css(css);
-
-			cache.css = css;
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var width = (this.width() / this.settings.items).toFixed(3) - this.settings.margin,
-				merge = null,
-				iterator = this._items.length,
-				grid = !this.settings.autoWidth,
-				widths = [];
-
-			cache.items = {
-				merge: false,
-				width: width
-			};
-
-			while (iterator--) {
-				merge = this._mergers[iterator];
-				merge = this.settings.mergeFit && Math.min(merge, this.settings.items) || merge;
-
-				cache.items.merge = merge > 1 || cache.items.merge;
-
-				widths[iterator] = !grid ? this._items[iterator].width() : width * merge;
-			}
-
-			this._widths = widths;
-		}
-	}, {
-		filter: [ 'items', 'settings' ],
-		run: function() {
-			var clones = [],
-				items = this._items,
-				settings = this.settings,
-				// TODO: Should be computed from number of min width items in stage
-				view = Math.max(settings.items * 2, 4),
-				size = Math.ceil(items.length / 2) * 2,
-				repeat = settings.loop && items.length ? settings.rewind ? view : Math.max(view, size) : 0,
-				append = '',
-				prepend = '';
-
-			repeat /= 2;
-
-			while (repeat > 0) {
-				// Switch to only using appended clones
-				clones.push(this.normalize(clones.length / 2, true));
-				append = append + items[clones[clones.length - 1]][0].outerHTML;
-				clones.push(this.normalize(items.length - 1 - (clones.length - 1) / 2, true));
-				prepend = items[clones[clones.length - 1]][0].outerHTML + prepend;
-				repeat -= 1;
-			}
-
-			this._clones = clones;
-
-			$(append).addClass('cloned').appendTo(this.$stage);
-			$(prepend).addClass('cloned').prependTo(this.$stage);
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function() {
-			var rtl = this.settings.rtl ? 1 : -1,
-				size = this._clones.length + this._items.length,
-				iterator = -1,
-				previous = 0,
-				current = 0,
-				coordinates = [];
-
-			while (++iterator < size) {
-				previous = coordinates[iterator - 1] || 0;
-				current = this._widths[this.relative(iterator)] + this.settings.margin;
-				coordinates.push(previous + current * rtl);
-			}
-
-			this._coordinates = coordinates;
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function() {
-			var padding = this.settings.stagePadding,
-				coordinates = this._coordinates,
-				css = {
-					'width': Math.ceil(Math.abs(coordinates[coordinates.length - 1])) + padding * 2,
-					'padding-left': padding || '',
-					'padding-right': padding || ''
-				};
-
-			this.$stage.css(css);
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			var iterator = this._coordinates.length,
-				grid = !this.settings.autoWidth,
-				items = this.$stage.children();
-
-			if (grid && cache.items.merge) {
 				while (iterator--) {
-					cache.css.width = this._widths[this.relative(iterator)];
-					items.eq(iterator).css(cache.css);
+					merge = this._mergers[iterator];
+					merge = (this.settings.mergeFit && Math.min(merge, this.settings.items)) || merge;
+
+					cache.items.merge = merge > 1 || cache.items.merge;
+
+					widths[iterator] = !grid ? this._items[iterator].width() : width * merge;
 				}
-			} else if (grid) {
-				cache.css.width = cache.items.width;
-				items.css(cache.css);
+
+				this._widths = widths;
 			}
-		}
-	}, {
-		filter: [ 'items' ],
-		run: function() {
-			this._coordinates.length < 1 && this.$stage.removeAttr('style');
-		}
-	}, {
-		filter: [ 'width', 'items', 'settings' ],
-		run: function(cache) {
-			cache.current = cache.current ? this.$stage.children().index(cache.current) : 0;
-			cache.current = Math.max(this.minimum(), Math.min(this.maximum(), cache.current));
-			this.reset(cache.current);
-		}
-	}, {
-		filter: [ 'position' ],
-		run: function() {
-			this.animate(this.coordinates(this._current));
-		}
-	}, {
-		filter: [ 'width', 'position', 'items', 'settings' ],
-		run: function() {
-			var rtl = this.settings.rtl ? 1 : -1,
-				padding = this.settings.stagePadding * 2,
-				begin = this.coordinates(this.current()) + padding,
-				end = begin + this.width() * rtl,
-				inner, outer, matches = [], i, n;
+		},
+		{
+			filter: [ 'items', 'settings' ],
+			run: function() {
+				var clones = [],
+					items = this._items,
+					settings = this.settings,
+					// TODO: Should be computed from number of min width items in stage
+					view = Math.max(settings.items * 2, 4),
+					size = Math.ceil(items.length / 2) * 2,
+					repeat = settings.loop && items.length ? (settings.rewind ? view : Math.max(view, size)) : 0,
+					append = '',
+					prepend = '';
 
-			for (i = 0, n = this._coordinates.length; i < n; i++) {
-				inner = this._coordinates[i - 1] || 0;
-				outer = Math.abs(this._coordinates[i]) + padding * rtl;
+				repeat /= 2;
 
-				if ((this.op(inner, '<=', begin) && (this.op(inner, '>', end)))
-					|| (this.op(outer, '<', begin) && this.op(outer, '>', end))) {
-					matches.push(i);
+				while (repeat > 0) {
+					// Switch to only using appended clones
+					clones.push(this.normalize(clones.length / 2, true));
+					append = append + items[clones[clones.length - 1]][0].outerHTML;
+					clones.push(this.normalize(items.length - 1 - (clones.length - 1) / 2, true));
+					prepend = items[clones[clones.length - 1]][0].outerHTML + prepend;
+					repeat -= 1;
+				}
+
+				this._clones = clones;
+
+				$(append).addClass('cloned').appendTo(this.$stage);
+				$(prepend).addClass('cloned').prependTo(this.$stage);
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function() {
+				var rtl = this.settings.rtl ? 1 : -1,
+					size = this._clones.length + this._items.length,
+					iterator = -1,
+					previous = 0,
+					current = 0,
+					coordinates = [];
+
+				while (++iterator < size) {
+					previous = coordinates[iterator - 1] || 0;
+					current = this._widths[this.relative(iterator)] + this.settings.margin;
+					coordinates.push(previous + current * rtl);
+				}
+
+				this._coordinates = coordinates;
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function() {
+				var padding = this.settings.stagePadding,
+					coordinates = this._coordinates,
+					css = {
+						width: Math.ceil(Math.abs(coordinates[coordinates.length - 1])) + padding * 2,
+						'padding-left': padding || '',
+						'padding-right': padding || ''
+					};
+
+				this.$stage.css(css);
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function(cache) {
+				var iterator = this._coordinates.length,
+					grid = !this.settings.autoWidth,
+					items = this.$stage.children();
+
+				if (grid && cache.items.merge) {
+					while (iterator--) {
+						cache.css.width = this._widths[this.relative(iterator)];
+						items.eq(iterator).css(cache.css);
+					}
+				} else if (grid) {
+					cache.css.width = cache.items.width;
+					items.css(cache.css);
 				}
 			}
+		},
+		{
+			filter: [ 'items' ],
+			run: function() {
+				this._coordinates.length < 1 && this.$stage.removeAttr('style');
+			}
+		},
+		{
+			filter: [ 'width', 'items', 'settings' ],
+			run: function(cache) {
+				cache.current = cache.current ? this.$stage.children().index(cache.current) : 0;
+				cache.current = Math.max(this.minimum(), Math.min(this.maximum(), cache.current));
+				this.reset(cache.current);
+			}
+		},
+		{
+			filter: [ 'position' ],
+			run: function() {
+				this.animate(this.coordinates(this._current));
+			}
+		},
+		{
+			filter: [ 'width', 'position', 'items', 'settings' ],
+			run: function() {
+				var rtl = this.settings.rtl ? 1 : -1,
+					padding = this.settings.stagePadding * 2,
+					begin = this.coordinates(this.current()) + padding,
+					end = begin + this.width() * rtl,
+					inner,
+					outer,
+					matches = [],
+					i,
+					n;
 
-			this.$stage.children('.active').removeClass('active');
-			this.$stage.children(':eq(' + matches.join('), :eq(') + ')').addClass('active');
+				for (i = 0, n = this._coordinates.length; i < n; i++) {
+					inner = this._coordinates[i - 1] || 0;
+					outer = Math.abs(this._coordinates[i]) + padding * rtl;
 
-			this.$stage.children('.center').removeClass('center');
-			if (this.settings.center) {
-				this.$stage.children().eq(this.current()).addClass('center');
+					if (
+						(this.op(inner, '<=', begin) && this.op(inner, '>', end)) ||
+						(this.op(outer, '<', begin) && this.op(outer, '>', end))
+					) {
+						matches.push(i);
+					}
+				}
+
+				this.$stage.children('.active').removeClass('active');
+				this.$stage.children(':eq(' + matches.join('), :eq(') + ')').addClass('active');
+
+				this.$stage.children('.center').removeClass('center');
+				if (this.settings.center) {
+					this.$stage.children().eq(this.current()).addClass('center');
+				}
 			}
 		}
-	} ];
+	];
 
 	/**
 	 * Create the stage DOM element
@@ -460,10 +486,12 @@
 
 		// create stage
 		this.$stage = $('<' + this.settings.stageElement + '>', {
-			"class": this.settings.stageClass
-		}).wrap( $( '<div/>', {
-			"class": this.settings.stageOuterClass
-		}));
+			class: this.settings.stageClass
+		}).wrap(
+			$('<div/>', {
+				class: this.settings.stageOuterClass
+			})
+		);
 
 		// append stage
 		this.$element.append(this.$stage.parent());
@@ -502,9 +530,7 @@
 			this.invalidate('width');
 		}
 
-		this.$element
-			.removeClass(this.options.loadingClass)
-			.addClass(this.options.loadedClass);
+		this.$element.removeClass(this.options.loadingClass).addClass(this.options.loadedClass);
 	};
 
 	/**
@@ -544,9 +570,7 @@
 	 *                    prevent the expensive browser layout forced reflow the $element.is(':visible') does
 	 */
 	Owl.prototype.isVisible = function() {
-		return this.settings.checkVisibility
-			? this.$element.is(':visible')
-			: true;
+		return this.settings.checkVisibility ? this.$element.is(':visible') : true;
 	};
 
 	/**
@@ -578,8 +602,11 @@
 
 			// responsive class
 			if (settings.responsiveClass) {
-				this.$element.attr('class',
-					this.$element.attr('class').replace(new RegExp('(' + this.options.responsiveClass + '-)\\S+\\s', 'g'), '$1' + match)
+				this.$element.attr(
+					'class',
+					this.$element
+						.attr('class')
+						.replace(new RegExp('(' + this.options.responsiveClass + '-)\\S+\\s', 'g'), '$1' + match)
 				);
 			}
 		}
@@ -612,8 +639,7 @@
 		var event = this.trigger('prepare', { content: item });
 
 		if (!event.data) {
-			event.data = $('<' + this.settings.itemElement + '/>')
-				.addClass(this.options.itemClass).append(item)
+			event.data = $('<' + this.settings.itemElement + '/>').addClass(this.options.itemClass).append(item);
 		}
 
 		this.trigger('prepared', { content: event.data });
@@ -628,7 +654,9 @@
 	Owl.prototype.update = function() {
 		var i = 0,
 			n = this._pipe.length,
-			filter = $.proxy(function(p) { return this[p] }, this._invalidated),
+			filter = $.proxy(function(p) {
+				return this[p];
+			}, this._invalidated),
 			cache = {};
 
 		while (i < n) {
@@ -741,10 +769,12 @@
 		if (this.settings.mouseDrag) {
 			this.$element.addClass(this.options.dragClass);
 			this.$stage.on('mousedown.owl.core', $.proxy(this.onDragStart, this));
-			this.$stage.on('dragstart.owl.core selectstart.owl.core', function() { return false });
+			this.$stage.on('dragstart.owl.core selectstart.owl.core', function() {
+				return false;
+			});
 		}
 
-		if (this.settings.touchDrag){
+		if (this.settings.touchDrag) {
 			this.$stage.on('touchstart.owl.core', $.proxy(this.onDragStart, this));
 			this.$stage.on('touchcancel.owl.core', $.proxy(this.onDragEnd, this));
 		}
@@ -773,15 +803,15 @@
 		} else {
 			stage = this.$stage.position();
 			stage = {
-				x: this.settings.rtl ?
-					stage.left + this.$stage.width() - this.width() + this.settings.margin :
-					stage.left,
+				x: this.settings.rtl
+					? stage.left + this.$stage.width() - this.width() + this.settings.margin
+					: stage.left,
 				y: stage.top
 			};
 		}
 
 		if (this.is('animating')) {
-			$.support.transform ? this.animate(stage.x) : this.$stage.stop()
+			$.support.transform ? this.animate(stage.x) : this.$stage.stop();
 			this.invalidate('position');
 		}
 
@@ -797,20 +827,23 @@
 
 		$(document).on('mouseup.owl.core touchend.owl.core', $.proxy(this.onDragEnd, this));
 
-		$(document).one('mousemove.owl.core touchmove.owl.core', $.proxy(function(event) {
-			var delta = this.difference(this._drag.pointer, this.pointer(event));
+		$(document).one(
+			'mousemove.owl.core touchmove.owl.core',
+			$.proxy(function(event) {
+				var delta = this.difference(this._drag.pointer, this.pointer(event));
 
-			$(document).on('mousemove.owl.core touchmove.owl.core', $.proxy(this.onDragMove, this));
+				$(document).on('mousemove.owl.core touchmove.owl.core', $.proxy(this.onDragMove, this));
 
-			if (Math.abs(delta.x) < Math.abs(delta.y) && this.is('valid')) {
-				return;
-			}
+				if (Math.abs(delta.x) < Math.abs(delta.y) && this.is('valid')) {
+					return;
+				}
 
-			event.preventDefault();
+				event.preventDefault();
 
-			this.enter('dragging');
-			this.trigger('drag');
-		}, this));
+				this.enter('dragging');
+				this.trigger('drag');
+			}, this)
+		);
 	};
 
 	/**
@@ -835,7 +868,7 @@
 		if (this.settings.loop) {
 			minimum = this.coordinates(this.minimum());
 			maximum = this.coordinates(this.maximum() + 1) - minimum;
-			stage.x = (((stage.x - minimum) % maximum + maximum) % maximum) + minimum;
+			stage.x = ((stage.x - minimum) % maximum + maximum) % maximum + minimum;
 		} else {
 			minimum = this.settings.rtl ? this.coordinates(this.maximum()) : this.coordinates(this.minimum());
 			maximum = this.settings.rtl ? this.coordinates(this.minimum()) : this.coordinates(this.maximum());
@@ -858,13 +891,13 @@
 	Owl.prototype.onDragEnd = function(event) {
 		var delta = this.difference(this._drag.pointer, this.pointer(event)),
 			stage = this._drag.stage.current,
-			direction = delta.x > 0 ^ this.settings.rtl ? 'left' : 'right';
+			direction = (delta.x > 0) ^ this.settings.rtl ? 'left' : 'right';
 
 		$(document).off('.owl.core');
 
 		this.$element.removeClass(this.options.grabClass);
 
-		if (delta.x !== 0 && this.is('dragging') || !this.is('valid')) {
+		if ((delta.x !== 0 && this.is('dragging')) || !this.is('valid')) {
 			this.speed(this.settings.dragEndSpeed || this.settings.smartSpeed);
 			this.current(this.closest(stage.x, delta.x !== 0 ? direction : this._drag.direction));
 			this.invalidate('position');
@@ -873,7 +906,9 @@
 			this._drag.direction = direction;
 
 			if (Math.abs(delta.x) > 3 || new Date().getTime() - this._drag.time > 300) {
-				this._drag.target.one('click.owl.core', function() { return false; });
+				this._drag.target.one('click.owl.core', function() {
+					return false;
+				});
 			}
 		}
 
@@ -901,20 +936,33 @@
 
 		if (!this.settings.freeDrag) {
 			// check closest item
-			$.each(coordinates, $.proxy(function(index, value) {
-				// on a left pull, check on current index
-				if (direction === 'left' && coordinate > value - pull && coordinate < value + pull) {
-					position = index;
-				// on a right pull, check on previous index
-				// to do so, subtract width from value and set position = index + 1
-				} else if (direction === 'right' && coordinate > value - width - pull && coordinate < value - width + pull) {
-					position = index + 1;
-				} else if (this.op(coordinate, '<', value)
-					&& this.op(coordinate, '>', coordinates[index + 1] !== undefined ? coordinates[index + 1] : value - width)) {
-					position = direction === 'left' ? index + 1 : index;
-				}
-				return position === -1;
-			}, this));
+			$.each(
+				coordinates,
+				$.proxy(function(index, value) {
+					// on a left pull, check on current index
+					if (direction === 'left' && coordinate > value - pull && coordinate < value + pull) {
+						position = index;
+						// on a right pull, check on previous index
+						// to do so, subtract width from value and set position = index + 1
+					} else if (
+						direction === 'right' &&
+						coordinate > value - width - pull &&
+						coordinate < value - width + pull
+					) {
+						position = index + 1;
+					} else if (
+						this.op(coordinate, '<', value) &&
+						this.op(
+							coordinate,
+							'>',
+							coordinates[index + 1] !== undefined ? coordinates[index + 1] : value - width
+						)
+					) {
+						position = direction === 'left' ? index + 1 : index;
+					}
+					return position === -1;
+				}, this)
+			);
 		}
 
 		if (!this.settings.loop) {
@@ -948,14 +996,20 @@
 		if ($.support.transform3d && $.support.transition) {
 			this.$stage.css({
 				transform: 'translate3d(' + coordinate + 'px,0px,0px)',
-				transition: (this.speed() / 1000) + 's' + (
-					this.settings.slideTransition ? ' ' + this.settings.slideTransition : ''
-				)
+				transition:
+					this.speed() / 1000 +
+					's' +
+					(this.settings.slideTransition ? ' ' + this.settings.slideTransition : '')
 			});
 		} else if (animate) {
-			this.$stage.animate({
-				left: coordinate + 'px'
-			}, this.speed(), this.settings.fallbackEasing, $.proxy(this.onTransitionEnd, this));
+			this.$stage.animate(
+				{
+					left: coordinate + 'px'
+				},
+				this.speed(),
+				this.settings.fallbackEasing,
+				$.proxy(this.onTransitionEnd, this)
+			);
 		} else {
 			this.$stage.css({
 				left: coordinate + 'px'
@@ -1016,7 +1070,9 @@
 			this._invalidated[part] = true;
 			this.is('valid') && this.leave('valid');
 		}
-		return $.map(this._invalidated, function(v, i) { return i });
+		return $.map(this._invalidated, function(v, i) {
+			return i;
+		});
 	};
 
 	/**
@@ -1162,13 +1218,19 @@
 	Owl.prototype.clones = function(position) {
 		var odd = this._clones.length / 2,
 			even = odd + this._items.length,
-			map = function(index) { return index % 2 === 0 ? even + index / 2 : odd - (index + 1) / 2 };
+			map = function(index) {
+				return index % 2 === 0 ? even + index / 2 : odd - (index + 1) / 2;
+			};
 
 		if (position === undefined) {
-			return $.map(this._clones, function(v, i) { return map(i) });
+			return $.map(this._clones, function(v, i) {
+				return map(i);
+			});
 		}
 
-		return $.map(this._clones, function(v, i) { return v === position ? map(i) : null });
+		return $.map(this._clones, function(v, i) {
+			return v === position ? map(i) : null;
+		});
 	};
 
 	/**
@@ -1198,9 +1260,12 @@
 			coordinate;
 
 		if (position === undefined) {
-			return $.map(this._coordinates, $.proxy(function(coordinate, index) {
-				return this.coordinates(index);
-			}, this));
+			return $.map(
+				this._coordinates,
+				$.proxy(function(coordinate, index) {
+					return this.coordinates(index);
+				}, this)
+			);
 		}
 
 		if (this.settings.center) {
@@ -1233,7 +1298,7 @@
 			return 0;
 		}
 
-		return Math.min(Math.max(Math.abs(to - from), 1), 6) * Math.abs((factor || this.settings.smartSpeed));
+		return Math.min(Math.max(Math.abs(to - from), 1), 6) * Math.abs(factor || this.settings.smartSpeed);
 	};
 
 	/**
@@ -1305,7 +1370,6 @@
 	 * @param {Event} event - The event arguments.
 	 */
 	Owl.prototype.onTransitionEnd = function(event) {
-
 		// if css2 animation then event object is undefined
 		if (event !== undefined) {
 			event.stopPropagation();
@@ -1349,21 +1413,25 @@
 		this._items = [];
 
 		if (content) {
-			content = (content instanceof jQuery) ? content : $(content);
+			content = content instanceof jQuery ? content : $(content);
 		}
 
 		if (this.settings.nestedItemSelector) {
 			content = content.find('.' + this.settings.nestedItemSelector);
 		}
 
-		content.filter(function() {
-			return this.nodeType === 1;
-		}).each($.proxy(function(index, item) {
-			item = this.prepare(item);
-			this.$stage.append(item);
-			this._items.push(item);
-			this._mergers.push(item.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
-		}, this));
+		content
+			.filter(function() {
+				return this.nodeType === 1;
+			})
+			.each(
+				$.proxy(function(index, item) {
+					item = this.prepare(item);
+					this.$stage.append(item);
+					this._items.push(item);
+					this._mergers.push(item.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
+				}, this)
+			);
 
 		this.reset(this.isNumeric(this.settings.startPosition) ? this.settings.startPosition : 0);
 
@@ -1395,7 +1463,11 @@
 		} else {
 			this._items[position].before(content);
 			this._items.splice(position, 0, content);
-			this._mergers.splice(position, 0, content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
+			this._mergers.splice(
+				position,
+				0,
+				content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1
+			);
 		}
 
 		this._items[current] && this.reset(this._items[current].index());
@@ -1435,16 +1507,23 @@
 	 * @protected
 	 */
 	Owl.prototype.preloadAutoWidthImages = function(images) {
-		images.each($.proxy(function(i, element) {
-			this.enter('pre-loading');
-			element = $(element);
-			$(new Image()).one('load', $.proxy(function(e) {
-				element.attr('src', e.target.src);
-				element.css('opacity', 1);
-				this.leave('pre-loading');
-				!this.is('pre-loading') && !this.is('initializing') && this.refresh();
-			}, this)).attr('src', element.attr('src') || element.attr('data-src') || element.attr('data-src-retina'));
-		}, this));
+		images.each(
+			$.proxy(function(i, element) {
+				this.enter('pre-loading');
+				element = $(element);
+				$(new Image())
+					.one(
+						'load',
+						$.proxy(function(e) {
+							element.attr('src', e.target.src);
+							element.css('opacity', 1);
+							this.leave('pre-loading');
+							!this.is('pre-loading') && !this.is('initializing') && this.refresh();
+						}, this)
+					)
+					.attr('src', element.attr('src') || element.attr('data-src') || element.attr('data-src-retina'));
+			}, this)
+		);
 	};
 
 	/**
@@ -1452,7 +1531,6 @@
 	 * @public
 	 */
 	Owl.prototype.destroy = function() {
-
 		this.$element.off('.owl.core');
 		this.$stage.off('.owl.core');
 		$(document).off('.owl.core');
@@ -1479,7 +1557,10 @@
 			.removeClass(this.options.rtlClass)
 			.removeClass(this.options.dragClass)
 			.removeClass(this.options.grabClass)
-			.attr('class', this.$element.attr('class').replace(new RegExp(this.options.responsiveClass + '-\\S+\\s', 'g'), ''))
+			.attr(
+				'class',
+				this.$element.attr('class').replace(new RegExp(this.options.responsiveClass + '-\\S+\\s', 'g'), '')
+			)
 			.removeData('owl.carousel');
 	};
 
@@ -1551,14 +1632,19 @@
 	 */
 	Owl.prototype.trigger = function(name, data, namespace, state, enter) {
 		var status = {
-			item: { count: this._items.length, index: this.current() }
-		}, handler = $.camelCase(
-			$.grep([ 'on', name, namespace ], function(v) { return v })
-				.join('-').toLowerCase()
-		), event = $.Event(
-			[ name, 'owl', namespace || 'carousel' ].join('.').toLowerCase(),
-			$.extend({ relatedTarget: this }, status, data)
-		);
+				item: { count: this._items.length, index: this.current() }
+			},
+			handler = $.camelCase(
+				$.grep([ 'on', name, namespace ], function(v) {
+					return v;
+				})
+					.join('-')
+					.toLowerCase()
+			),
+			event = $.Event(
+				[ name, 'owl', namespace || 'carousel' ].join('.').toLowerCase(),
+				$.extend({ relatedTarget: this }, status, data)
+			);
 
 		if (!this._supress[name]) {
 			$.each(this._plugins, function(name, plugin) {
@@ -1583,13 +1669,16 @@
 	 * @param name - The state name.
 	 */
 	Owl.prototype.enter = function(name) {
-		$.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
-			if (this._states.current[name] === undefined) {
-				this._states.current[name] = 0;
-			}
+		$.each(
+			[ name ].concat(this._states.tags[name] || []),
+			$.proxy(function(i, name) {
+				if (this._states.current[name] === undefined) {
+					this._states.current[name] = 0;
+				}
 
-			this._states.current[name]++;
-		}, this));
+				this._states.current[name]++;
+			}, this)
+		);
 	};
 
 	/**
@@ -1597,9 +1686,12 @@
 	 * @param name - The state name.
 	 */
 	Owl.prototype.leave = function(name) {
-		$.each([ name ].concat(this._states.tags[name] || []), $.proxy(function(i, name) {
-			this._states.current[name]--;
-		}, this));
+		$.each(
+			[ name ].concat(this._states.tags[name] || []),
+			$.proxy(function(i, name) {
+				this._states.current[name]--;
+			}, this)
+		);
 	};
 
 	/**
@@ -1630,9 +1722,12 @@
 				this._states.tags[object.name] = this._states.tags[object.name].concat(object.tags);
 			}
 
-			this._states.tags[object.name] = $.grep(this._states.tags[object.name], $.proxy(function(tag, i) {
-				return $.inArray(tag, this._states.tags[object.name]) === i;
-			}, this));
+			this._states.tags[object.name] = $.grep(
+				this._states.tags[object.name],
+				$.proxy(function(tag, i) {
+					return $.inArray(tag, this._states.tags[object.name]) === i;
+				}, this)
+			);
 		}
 	};
 
@@ -1642,9 +1737,12 @@
 	 * @param {Array.<String>} events - The events to suppress.
 	 */
 	Owl.prototype.suppress = function(events) {
-		$.each(events, $.proxy(function(index, event) {
-			this._supress[event] = true;
-		}, this));
+		$.each(
+			events,
+			$.proxy(function(index, event) {
+				this._supress[event] = true;
+			}, this)
+		);
 	};
 
 	/**
@@ -1653,9 +1751,12 @@
 	 * @param {Array.<String>} events - The events to release.
 	 */
 	Owl.prototype.release = function(events) {
-		$.each(events, $.proxy(function(index, event) {
-			delete this._supress[event];
-		}, this));
+		$.each(
+			events,
+			$.proxy(function(index, event) {
+				delete this._supress[event];
+			}, this)
+		);
 	};
 
 	/**
@@ -1670,9 +1771,10 @@
 
 		event = event.originalEvent || event || window.event;
 
-		event = event.touches && event.touches.length ?
-			event.touches[0] : event.changedTouches && event.changedTouches.length ?
-				event.changedTouches[0] : event;
+		event =
+			event.touches && event.touches.length
+				? event.touches[0]
+				: event.changedTouches && event.changedTouches.length ? event.changedTouches[0] : event;
 
 		if (event.pageX) {
 			result.x = event.pageX;
@@ -1726,17 +1828,18 @@
 				data = new Owl(this, typeof option == 'object' && option);
 				$this.data('owl.carousel', data);
 
-				$.each([
-					'next', 'prev', 'to', 'destroy', 'refresh', 'replace', 'add', 'remove'
-				], function(i, event) {
+				$.each([ 'next', 'prev', 'to', 'destroy', 'refresh', 'replace', 'add', 'remove' ], function(i, event) {
 					data.register({ type: Owl.Type.Event, name: event });
-					data.$element.on(event + '.owl.carousel.core', $.proxy(function(e) {
-						if (e.namespace && e.relatedTarget !== this) {
-							this.suppress([ event ]);
-							data[event].apply(this, [].slice.call(arguments, 1));
-							this.release([ event ]);
-						}
-					}, data));
+					data.$element.on(
+						event + '.owl.carousel.core',
+						$.proxy(function(e) {
+							if (e.namespace && e.relatedTarget !== this) {
+								this.suppress([ event ]);
+								data[event].apply(this, [].slice.call(arguments, 1));
+								this.release([ event ]);
+							}
+						}, data)
+					);
 				});
 			}
 
@@ -1751,7 +1854,6 @@
 	 * @public
 	 */
 	$.fn.owlCarousel.Constructor = Owl;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -1761,8 +1863,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the auto refresh plugin.
 	 * @class The Auto Refresh Plugin
@@ -1863,7 +1964,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.AutoRefresh = AutoRefresh;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -1873,15 +1973,13 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the lazy plugin.
 	 * @class The Lazy Plugin
 	 * @param {Owl} carousel - The Owl Carousel
 	 */
 	var Lazy = function(carousel) {
-
 		/**
 		 * Reference to the core.
 		 * @protected
@@ -1913,19 +2011,23 @@
 
 				if ((e.property && e.property.name == 'position') || e.type == 'initialized') {
 					var settings = this._core.settings,
-						n = (settings.center && Math.ceil(settings.items / 2) || settings.items),
-						i = ((settings.center && n * -1) || 0),
-						position = (e.property && e.property.value !== undefined ? e.property.value : this._core.current()) + i,
+						n = (settings.center && Math.ceil(settings.items / 2)) || settings.items,
+						i = (settings.center && n * -1) || 0,
+						position =
+							(e.property && e.property.value !== undefined ? e.property.value : this._core.current()) +
+							i,
 						clones = this._core.clones().length,
-						load = $.proxy(function(i, v) { this.load(v) }, this);
+						load = $.proxy(function(i, v) {
+							this.load(v);
+						}, this);
 					//TODO: Need documentation for this new option
 					if (settings.lazyLoadEager > 0) {
 						n += settings.lazyLoadEager;
 						// If the carousel is looping also preload images that are to the "left"
 						if (settings.loop) {
-              position -= settings.lazyLoadEager;
-              n++;
-            }
+							position -= settings.lazyLoadEager;
+							n++;
+						}
 					}
 
 					while (i++ < n) {
@@ -1966,33 +2068,49 @@
 			return;
 		}
 
-		$elements.each($.proxy(function(index, element) {
-			var $element = $(element), image,
-                url = (window.devicePixelRatio > 1 && $element.attr('data-src-retina')) || $element.attr('data-src') || $element.attr('data-srcset');
+		$elements.each(
+			$.proxy(function(index, element) {
+				var $element = $(element),
+					image,
+					url =
+						(window.devicePixelRatio > 1 && $element.attr('data-src-retina')) ||
+						$element.attr('data-src') ||
+						$element.attr('data-srcset');
 
-			this._core.trigger('load', { element: $element, url: url }, 'lazy');
+				this._core.trigger('load', { element: $element, url: url }, 'lazy');
 
-			if ($element.is('img')) {
-				$element.one('load.owl.lazy', $.proxy(function() {
-					$element.css('opacity', 1);
-					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
-				}, this)).attr('src', url);
-            } else if ($element.is('source')) {
-                $element.one('load.owl.lazy', $.proxy(function() {
-                    this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
-                }, this)).attr('srcset', url);
-			} else {
-				image = new Image();
-				image.onload = $.proxy(function() {
-					$element.css({
-						'background-image': 'url("' + url + '")',
-						'opacity': '1'
-					});
-					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
-				}, this);
-				image.src = url;
-			}
-		}, this));
+				if ($element.is('img')) {
+					$element
+						.one(
+							'load.owl.lazy',
+							$.proxy(function() {
+								$element.css('opacity', 1);
+								this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+							}, this)
+						)
+						.attr('src', url);
+				} else if ($element.is('source')) {
+					$element
+						.one(
+							'load.owl.lazy',
+							$.proxy(function() {
+								this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+							}, this)
+						)
+						.attr('srcset', url);
+				} else {
+					image = new Image();
+					image.onload = $.proxy(function() {
+						$element.css({
+							'background-image': 'url("' + url + '")',
+							opacity: '1'
+						});
+						this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+					}, this);
+					image.src = url;
+				}
+			}, this)
+		);
 
 		this._loaded.push($item.get(0));
 	};
@@ -2013,7 +2131,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.Lazy = Lazy;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -2023,8 +2140,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the auto height plugin.
 	 * @class The Auto Height Plugin
@@ -2052,13 +2168,16 @@
 				}
 			}, this),
 			'changed.owl.carousel': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight && e.property.name === 'position'){
+				if (e.namespace && this._core.settings.autoHeight && e.property.name === 'position') {
 					this.update();
 				}
 			}, this),
 			'loaded.owl.lazy': $.proxy(function(e) {
-				if (e.namespace && this._core.settings.autoHeight
-					&& e.element.closest('.' + this._core.settings.itemClass).index() === this._core.current()) {
+				if (
+					e.namespace &&
+					this._core.settings.autoHeight &&
+					e.element.closest('.' + this._core.settings.itemClass).index() === this._core.current()
+				) {
 					this.update();
 				}
 			}, this)
@@ -2094,7 +2213,6 @@
 				}, 250);
 			}
 		});
-
 	};
 
 	/**
@@ -2129,9 +2247,7 @@
 
 		this._previousHeight = maxheight;
 
-		this._core.$stage.parent()
-			.height(maxheight)
-			.addClass(this._core.settings.autoHeightClass);
+		this._core.$stage.parent().height(maxheight).addClass(this._core.settings.autoHeightClass);
 	};
 
 	AutoHeight.prototype.destroy = function() {
@@ -2146,7 +2262,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.AutoHeight = AutoHeight;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -2156,8 +2271,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the video plugin.
 	 * @class The Video Plugin
@@ -2232,9 +2346,13 @@
 		// register event handlers
 		this._core.$element.on(this._handlers);
 
-		this._core.$element.on('click.owl.video', '.owl-video-play-icon', $.proxy(function(e) {
-			this.play(e);
-		}, this));
+		this._core.$element.on(
+			'click.owl.video',
+			'.owl-video-play-icon',
+			$.proxy(function(e) {
+				this.play(e);
+			}, this)
+		);
 	};
 
 	/**
@@ -2254,22 +2372,21 @@
 	 * @param {jQuery} item - The item containing the video.
 	 */
 	Video.prototype.fetch = function(target, item) {
-			var type = (function() {
-					if (target.attr('data-vimeo-id')) {
-						return 'vimeo';
-					} else if (target.attr('data-vzaar-id')) {
-						return 'vzaar'
-					} else {
-						return 'youtube';
-					}
-				})(),
-				id = target.attr('data-vimeo-id') || target.attr('data-youtube-id') || target.attr('data-vzaar-id'),
-				width = target.attr('data-width') || this._core.settings.videoWidth,
-				height = target.attr('data-height') || this._core.settings.videoHeight,
-				url = target.attr('href');
+		var type = (function() {
+				if (target.attr('data-vimeo-id')) {
+					return 'vimeo';
+				} else if (target.attr('data-vzaar-id')) {
+					return 'vzaar';
+				} else {
+					return 'youtube';
+				}
+			})(),
+			id = target.attr('data-vimeo-id') || target.attr('data-youtube-id') || target.attr('data-vzaar-id'),
+			width = target.attr('data-width') || this._core.settings.videoWidth,
+			height = target.attr('data-height') || this._core.settings.videoHeight,
+			url = target.attr('href');
 
 		if (url) {
-
 			/*
 					Parses the id's out of the following urls (and probably more):
 					https://www.youtube.com/watch?v=:id
@@ -2282,7 +2399,9 @@
 					Visual example: https://regexper.com/#(http%3A%7Chttps%3A%7C)%5C%2F%5C%2F(player.%7Cwww.%7Capp.)%3F(vimeo%5C.com%7Cyoutu(be%5C.com%7C%5C.be%7Cbe%5C.googleapis%5C.com)%7Cvzaar%5C.com)%5C%2F(video%5C%2F%7Cvideos%5C%2F%7Cembed%5C%2F%7Cchannels%5C%2F.%2B%5C%2F%7Cgroups%5C%2F.%2B%5C%2F%7Cwatch%5C%3Fv%3D%7Cv%5C%2F)%3F(%5BA-Za-z0-9._%25-%5D*)(%5C%26%5CS%2B)%3F
 			*/
 
-			id = url.match(/(http:|https:|)\/\/(player.|www.|app.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com|be\-nocookie\.com)|vzaar\.com)\/(video\/|videos\/|embed\/|channels\/.+\/|groups\/.+\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
+			id = url.match(
+				/(http:|https:|)\/\/(player.|www.|app.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com|be\-nocookie\.com)|vzaar\.com)\/(video\/|videos\/|embed\/|channels\/.+\/|groups\/.+\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/
+			);
 
 			if (id[3].indexOf('youtu') > -1) {
 				type = 'youtube';
@@ -2321,7 +2440,8 @@
 		var tnLink,
 			icon,
 			path,
-			dimensions = video.width && video.height ? 'width:' + video.width + 'px;height:' + video.height + 'px;' : '',
+			dimensions =
+				video.width && video.height ? 'width:' + video.width + 'px;height:' + video.height + 'px;' : '',
 			customTn = target.find('img'),
 			srcType = 'src',
 			lazyClass = '',
@@ -2330,14 +2450,14 @@
 				icon = '<div class="owl-video-play-icon"></div>';
 
 				if (settings.lazyLoad) {
-					tnLink = $('<div/>',{
-						"class": 'owl-video-tn ' + lazyClass,
-						"srcType": path
+					tnLink = $('<div/>', {
+						class: 'owl-video-tn ' + lazyClass,
+						srcType: path
 					});
 				} else {
-					tnLink = $( '<div/>', {
-						"class": "owl-video-tn",
-						"style": 'opacity:1;background-image:url(' + path + ')'
+					tnLink = $('<div/>', {
+						class: 'owl-video-tn',
+						style: 'opacity:1;background-image:url(' + path + ')'
 					});
 				}
 				target.after(tnLink);
@@ -2345,10 +2465,12 @@
 			};
 
 		// wrap video content into owl-video-wrapper div
-		target.wrap( $( '<div/>', {
-			"class": "owl-video-wrapper",
-			"style": dimensions
-		}));
+		target.wrap(
+			$('<div/>', {
+				class: 'owl-video-wrapper',
+				style: dimensions
+			})
+		);
 
 		if (this._core.settings.lazyLoad) {
 			srcType = 'data-src';
@@ -2363,7 +2485,7 @@
 		}
 
 		if (video.type === 'youtube') {
-			path = "//img.youtube.com/vi/" + video.id + "/hqdefault.jpg";
+			path = '//img.youtube.com/vi/' + video.id + '/hqdefault.jpg';
 			create(path);
 		} else if (video.type === 'vimeo') {
 			$.ajax({
@@ -2428,18 +2550,18 @@
 
 		this._core.reset(item.index());
 
-		html = $( '<iframe frameborder="0" allowfullscreen mozallowfullscreen webkitAllowFullScreen ></iframe>' );
-		html.attr( 'height', height );
-		html.attr( 'width', width );
+		html = $('<iframe frameborder="0" allowfullscreen mozallowfullscreen webkitAllowFullScreen ></iframe>');
+		html.attr('height', height);
+		html.attr('width', width);
 		if (video.type === 'youtube') {
-			html.attr( 'src', '//www.youtube.com/embed/' + video.id + '?autoplay=1&rel=0&v=' + video.id );
+			html.attr('src', '//www.youtube.com/embed/' + video.id + '?autoplay=1&rel=0&v=' + video.id);
 		} else if (video.type === 'vimeo') {
-			html.attr( 'src', '//player.vimeo.com/video/' + video.id + '?autoplay=1' );
+			html.attr('src', '//player.vimeo.com/video/' + video.id + '?autoplay=1');
 		} else if (video.type === 'vzaar') {
-			html.attr( 'src', '//view.vzaar.com/' + video.id + '/player?autoplay=true' );
+			html.attr('src', '//view.vzaar.com/' + video.id + '/player?autoplay=true');
 		}
 
-		iframe = $(html).wrap( '<div class="owl-video-frame" />' ).insertAfter(item.find('.owl-video'));
+		iframe = $(html).wrap('<div class="owl-video-frame" />').insertAfter(item.find('.owl-video'));
 
 		this._playing = item.addClass('owl-video-playing');
 	};
@@ -2451,8 +2573,7 @@
 	 * @returns {Boolean}
 	 */
 	Video.prototype.isInFullScreen = function() {
-		var element = document.fullscreenElement || document.mozFullScreenElement ||
-				document.webkitFullscreenElement;
+		var element = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
 
 		return element && $(element).parent().hasClass('owl-video-frame');
 	};
@@ -2474,7 +2595,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.Video = Video;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -2484,8 +2604,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the animate plugin.
 	 * @class The Navigation Plugin
@@ -2535,7 +2654,6 @@
 	 * @returns {Boolean|undefined}
 	 */
 	Animate.prototype.swap = function() {
-
 		if (this.core.settings.items !== 1) {
 			return;
 		}
@@ -2559,21 +2677,21 @@
 
 		if (outgoing) {
 			left = this.core.coordinates(this.previous) - this.core.coordinates(this.next);
-			previous.one($.support.animation.end, clear)
-				.css( { 'left': left + 'px' } )
+			previous
+				.one($.support.animation.end, clear)
+				.css({ left: left + 'px' })
 				.addClass('animated owl-animated-out')
 				.addClass(outgoing);
 		}
 
 		if (incoming) {
-			next.one($.support.animation.end, clear)
-				.addClass('animated owl-animated-in')
-				.addClass(incoming);
+			next.one($.support.animation.end, clear).addClass('animated owl-animated-in').addClass(incoming);
 		}
 	};
 
 	Animate.prototype.clear = function(e) {
-		$(e.target).css( { 'left': '' } )
+		$(e.target)
+			.css({ left: '' })
 			.removeClass('animated owl-animated-out owl-animated-in')
 			.removeClass(this.core.settings.animateIn)
 			.removeClass(this.core.settings.animateOut);
@@ -2596,7 +2714,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.Animate = Animate;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -2608,8 +2725,7 @@
  * @author Tom De Caluwé
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	/**
 	 * Creates the autoplay plugin.
 	 * @class The Autoplay Plugin
@@ -2739,7 +2855,7 @@
 			return;
 		}
 		this._core.next(speed || this._core.settings.autoplaySpeed);
-	}
+	};
 
 	/**
 	 * Reads the current timer value when the timer is playing.
@@ -2830,7 +2946,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.autoplay = Autoplay;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -2840,7 +2955,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
+(function($, window, document, undefined) {
 	'use strict';
 
 	/**
@@ -2909,8 +3024,13 @@
 		this._handlers = {
 			'prepared.owl.carousel': $.proxy(function(e) {
 				if (e.namespace && this._core.settings.dotsData) {
-					this._templates.push('<div class="' + this._core.settings.dotClass + '">' +
-						$(e.content).find('[data-dot]').addBack('[data-dot]').attr('data-dot') + '</div>');
+					this._templates.push(
+						'<div class="' +
+							this._core.settings.dotClass +
+							'">' +
+							$(e.content).find('[data-dot]').addBack('[data-dot]').attr('data-dot') +
+							'</div>'
+					);
 				}
 			}, this),
 			'added.owl.carousel': $.proxy(function(e) {
@@ -2970,10 +3090,7 @@
 		navElement: 'button type="button" role="presentation"',
 		navContainer: false,
 		navContainerClass: 'owl-nav',
-		navClass: [
-			'owl-prev',
-			'owl-next'
-		],
+		navClass: [ 'owl-prev', 'owl-next' ],
 		slideBy: 1,
 		dotClass: 'owl-dot',
 		dotsClass: 'owl-dots',
@@ -2993,43 +3110,55 @@
 			settings = this._core.settings;
 
 		// create DOM structure for relative navigation
-		this._controls.$relative = (settings.navContainer ? $(settings.navContainer)
+		this._controls.$relative = (settings.navContainer
+			? $(settings.navContainer)
 			: $('<div>').addClass(settings.navContainerClass).appendTo(this.$element)).addClass('disabled');
 
 		this._controls.$previous = $('<' + settings.navElement + '>')
 			.addClass(settings.navClass[0])
 			.html(settings.navText[0])
 			.prependTo(this._controls.$relative)
-			.on('click', $.proxy(function(e) {
-				this.prev(settings.navSpeed);
-			}, this));
+			.on(
+				'click',
+				$.proxy(function(e) {
+					this.prev(settings.navSpeed);
+				}, this)
+			);
 		this._controls.$next = $('<' + settings.navElement + '>')
 			.addClass(settings.navClass[1])
 			.html(settings.navText[1])
 			.appendTo(this._controls.$relative)
-			.on('click', $.proxy(function(e) {
-				this.next(settings.navSpeed);
-			}, this));
+			.on(
+				'click',
+				$.proxy(function(e) {
+					this.next(settings.navSpeed);
+				}, this)
+			);
 
 		// create DOM structure for absolute navigation
 		if (!settings.dotsData) {
-			this._templates = [ $('<button role="button">')
-				.addClass(settings.dotClass)
-				.append($('<span>'))
-				.prop('outerHTML') ];
+			this._templates = [
+				$('<button role="button">').addClass(settings.dotClass).append($('<span>')).prop('outerHTML')
+			];
 		}
 
-		this._controls.$absolute = (settings.dotsContainer ? $(settings.dotsContainer)
+		this._controls.$absolute = (settings.dotsContainer
+			? $(settings.dotsContainer)
 			: $('<div>').addClass(settings.dotsClass).appendTo(this.$element)).addClass('disabled');
 
-		this._controls.$absolute.on('click', 'button', $.proxy(function(e) {
-			var index = $(e.target).parent().is(this._controls.$absolute)
-				? $(e.target).index() : $(e.target).parent().index();
+		this._controls.$absolute.on(
+			'click',
+			'button',
+			$.proxy(function(e) {
+				var index = $(e.target).parent().is(this._controls.$absolute)
+					? $(e.target).index()
+					: $(e.target).parent().index();
 
-			e.preventDefault();
+				e.preventDefault();
 
-			this.to(index, settings.dotsSpeed);
-		}, this));
+				this.to(index, settings.dotsSpeed);
+			}, this)
+		);
 
 		/*$el.on('focusin', function() {
 			$(document).off(".carousel");
@@ -3081,13 +3210,14 @@
 	 * @protected
 	 */
 	Navigation.prototype.update = function() {
-		var i, j, k,
+		var i,
+			j,
+			k,
 			lower = this._core.clones().length / 2,
 			upper = lower + this._core.items().length,
 			maximum = this._core.maximum(true),
 			settings = this._core.settings,
-			size = settings.center || settings.autoWidth || settings.dotsData
-				? 1 : settings.dotsEach || settings.items;
+			size = settings.center || settings.autoWidth || settings.dotsData ? 1 : settings.dotsEach || settings.items;
 
 		if (settings.slideBy !== 'page') {
 			settings.slideBy = Math.min(settings.slideBy, settings.items);
@@ -3105,7 +3235,7 @@
 					if (Math.min(maximum, i - lower) === maximum) {
 						break;
 					}
-					j = 0, ++k;
+					(j = 0), ++k;
 				}
 				j += this._core.mergers(this._core.relative(i));
 			}
@@ -3160,8 +3290,9 @@
 		event.page = {
 			index: $.inArray(this.current(), this._pages),
 			count: this._pages.length,
-			size: settings && (settings.center || settings.autoWidth || settings.dotsData
-				? 1 : settings.dotsEach || settings.items)
+			size:
+				settings &&
+				(settings.center || settings.autoWidth || settings.dotsData ? 1 : settings.dotsEach || settings.items)
 		};
 	};
 
@@ -3172,9 +3303,12 @@
 	 */
 	Navigation.prototype.current = function() {
 		var current = this._core.relative(this._core.current());
-		return $.grep(this._pages, $.proxy(function(page, index) {
-			return page.start <= current && page.end >= current;
-		}, this)).pop();
+		return $.grep(
+			this._pages,
+			$.proxy(function(page, index) {
+				return page.start <= current && page.end >= current;
+			}, this)
+		).pop();
 	};
 
 	/**
@@ -3183,18 +3317,19 @@
 	 * @returns {Number}
 	 */
 	Navigation.prototype.getPosition = function(successor) {
-		var position, length,
+		var position,
+			length,
 			settings = this._core.settings;
 
 		if (settings.slideBy == 'page') {
 			position = $.inArray(this.current(), this._pages);
 			length = this._pages.length;
 			successor ? ++position : --position;
-			position = this._pages[((position % length) + length) % length].start;
+			position = this._pages[(position % length + length) % length].start;
 		} else {
 			position = this._core.relative(this._core.current());
 			length = this._core.items().length;
-			successor ? position += settings.slideBy : position -= settings.slideBy;
+			successor ? (position += settings.slideBy) : (position -= settings.slideBy);
 		}
 
 		return position;
@@ -3230,14 +3365,13 @@
 
 		if (!standard && this._pages.length) {
 			length = this._pages.length;
-			$.proxy(this._overrides.to, this._core)(this._pages[((position % length) + length) % length].start, speed);
+			$.proxy(this._overrides.to, this._core)(this._pages[(position % length + length) % length].start, speed);
 		} else {
 			$.proxy(this._overrides.to, this._core)(position, speed);
 		}
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.Navigation = Navigation;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -3247,7 +3381,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
+(function($, window, document, undefined) {
 	'use strict';
 
 	/**
@@ -3321,17 +3455,20 @@
 		this.$element.on(this._handlers);
 
 		// register event listener for hash navigation
-		$(window).on('hashchange.owl.navigation', $.proxy(function(e) {
-			var hash = window.location.hash.substring(1),
-				items = this._core.$stage.children(),
-				position = this._hashes[hash] && items.index(this._hashes[hash]);
+		$(window).on(
+			'hashchange.owl.navigation',
+			$.proxy(function(e) {
+				var hash = window.location.hash.substring(1),
+					items = this._core.$stage.children(),
+					position = this._hashes[hash] && items.index(this._hashes[hash]);
 
-			if (position === undefined || position === this._core.current()) {
-				return;
-			}
+				if (position === undefined || position === this._core.current()) {
+					return;
+				}
 
-			this._core.to(this._core.relative(position), false, true);
-		}, this));
+				this._core.to(this._core.relative(position), false, true);
+			}, this)
+		);
 	};
 
 	/**
@@ -3360,7 +3497,6 @@
 	};
 
 	$.fn.owlCarousel.Constructor.Plugins.Hash = Hash;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /**
@@ -3372,8 +3508,7 @@
  * @author David Deutsch
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
-
+(function($, window, document, undefined) {
 	var style = $('<support>').get(0).style,
 		prefixes = 'Webkit Moz O ms'.split(' '),
 		events = {
@@ -3429,14 +3564,14 @@
 
 	if (tests.csstransitions()) {
 		/* jshint -W053 */
-		$.support.transition = new String(prefixed('transition'))
-		$.support.transition.end = events.transition.end[ $.support.transition ];
+		$.support.transition = new String(prefixed('transition'));
+		$.support.transition.end = events.transition.end[$.support.transition];
 	}
 
 	if (tests.cssanimations()) {
 		/* jshint -W053 */
-		$.support.animation = new String(prefixed('animation'))
-		$.support.animation.end = events.animation.end[ $.support.animation ];
+		$.support.animation = new String(prefixed('animation'));
+		$.support.animation.end = events.animation.end[$.support.animation];
 	}
 
 	if (tests.csstransforms()) {
@@ -3444,5 +3579,4 @@
 		$.support.transform = new String(prefixed('transform'));
 		$.support.transform3d = tests.csstransforms3d();
 	}
-
 })(window.Zepto || window.jQuery, window, document);

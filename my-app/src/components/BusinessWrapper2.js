@@ -10,7 +10,7 @@ export default class BusinessWrapper2 extends Component {
 						<div className="row">
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<Fade bottom>
-									<div className="business-heading aos-init aos-animate" dataAos="fade-up">
+									<div className="business-heading aos-init aos-animate" dataaos="fade-up">
 										<h2 className="heading mobileHide">
 											You need a first impression that gets results.<span>That's exactly what we'll help you do.</span>
 										</h2>
@@ -30,7 +30,7 @@ export default class BusinessWrapper2 extends Component {
 									</div>
 								</Fade>
 								<Fade bottom>
-									<div className="business-info aos-init aos-animate" dataAos="fade-up">
+									<div className="business-info aos-init aos-animate" dataaos="fade-up">
 										<ul className="listing-sec">
 											<li>
 												<label>
@@ -69,13 +69,13 @@ export default class BusinessWrapper2 extends Component {
 								</Fade>
 								<div className="lets-Talk">
 									<Fade bottom>
-										<h3 className="heading aos-init aos-animate" dataAos="fade-up">
+										<h3 className="heading aos-init aos-animate" dataaos="fade-up">
 											We understand &amp; <span>We can help!</span>
 										</h3>
 									</Fade>
 									<Fade bottom>
-										<div className="multiple-btn aos-init aos-animate" dataAos="fade-up">
-											<button className="btn btn-normal" onClick="openChat();">
+										<div className="multiple-btn aos-init aos-animate" dataaos="fade-up">
+											<button className="btn btn-normal" >
 												<span>
 													Let’s Talk
 													<img

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Fade from 'react-reveal/Fade';
 
 export default class ReviewWrapper extends Component {
+	
 	render() {
 		return (
 			<div>
@@ -20,12 +21,12 @@ export default class ReviewWrapper extends Component {
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div className="review-Heading">
 									<Fade bottom>
-										<h2 className="heading mobileHide aos-init aos-animate" dataAos="fade-up">
+										<h2 className="heading mobileHide aos-init aos-animate" dataaos="fade-up">
 											We belive in building<span>work relationships with customers.</span>
 										</h2>
 									</Fade>
 									<Fade bottom>
-										<h2 className="heading desktopHide aos-init aos-animate" dataAos="fade-up">
+										<h2 className="heading desktopHide aos-init aos-animate" dataaos="fade-up">
 											We belive in building work relationships with customers.
 										</h2>
 									</Fade>
@@ -35,7 +36,7 @@ export default class ReviewWrapper extends Component {
 						<div className="row">
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<Fade bottom>
-									<div className="review-image-top aos-init aos-animate" dataAos="fade-up">
+									<div className="review-image-top aos-init aos-animate" dataaos="fade-up">
 										<img
 											src="img/clients-heart.png"
 											className="img-fluid"
@@ -52,8 +53,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -98,8 +99,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -145,8 +146,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -190,8 +191,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -232,8 +233,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -276,8 +277,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -323,8 +324,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -371,8 +372,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -414,8 +415,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -463,8 +464,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -509,8 +510,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -555,8 +556,8 @@ export default class ReviewWrapper extends Component {
 											<Fade bottom>
 												<div
 													className="cardSection aos-init aos-animate"
-													dataAos-delay="100"
-													dataAos="fade-up"
+													dataaos-delay="100"
+													dataaos="fade-up"
 												>
 													<div className="review-box">
 														<div className="review-image">
@@ -596,14 +597,14 @@ export default class ReviewWrapper extends Component {
 									</ul>
 								</div>
 								<Fade bottom>
-									<div className="reviewButtonSection aos-init aos-animate" dataAos="fade-up">
-										<div className="lets-Talk aos-init aos-animate" dataAos="fade-up">
+									<div className="reviewButtonSection aos-init aos-animate" dataaos="fade-up">
+										<div className="lets-Talk aos-init aos-animate" dataaos="fade-up">
 											<h3 className="heading">
 												Ready to start<span> growing your business?</span>{' '}
 												<span>Let’s connect.</span>
 											</h3>
 										</div>
-										<ul className="btnSection aos-init aos-animate" dataAos="fade-up">
+										<ul className="btnSection aos-init aos-animate" dataaos="fade-up">
 											<li>
 												<a href="form" title="" className="btnBig">
 													<span>
@@ -627,7 +628,7 @@ export default class ReviewWrapper extends Component {
 											</li>
 											<li>
 												<a href="javascript:void(0)" title="">
-													<button className="btn btn-normal btnYellow" onClick="openChat();">
+													<button className="btn btn-normal btnYellow">
 														<span>
 															Let’s Talk
 															<img

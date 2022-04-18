@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 
 export default class BannerWrapper extends Component {
+	constructor() {
+		super();
+		this.state = {
+			curIndex: '',
+			curTxt: 'Online Brand',
+			interStopped: false
+		};
+		this.state.curInterval = setInterval(() => {
+			const cur = (this.state.curIndex + 1) % 3;
+			var txt = [ 'Online Brand', 'Mobile App', 'Online Shop', 'Application' ];
+			this.setState({
+				curTxt: txt[cur],
+				curIndex: cur
+			});
+		}, 5000);
+	}
+
 	render() {
 		return (
 			<div>
@@ -53,91 +70,18 @@ export default class BannerWrapper extends Component {
 									<div className="banner-content">
 										<h1 className="title">Build the</h1>
 										<h1 className="title slidertitle static-line">
-											<div className="custom1 owl-carousel owl-theme owl-loaded owl-drag">
-												<div className="owl-stage-outer">
-													<div
-														className="owl-stage"
-														style={{
-															transform: 'translate3d(-4115px, 0px, 0px)',
-															transition: 'all 0s ease 0s',
-															width: '9053px'
-														}}
-													>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Online Shop</span>
-															</div>
-														</div>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Audience</span>
-															</div>
-														</div>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Application</span>
-															</div>
-														</div>
-														<div className="owl-item" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Online Brand</span>
-															</div>
-														</div>
-														<div
-															className="owl-item animated owl-animated-in fadeIn owl-animated-out fadeOut"
-															style={{ width: '823px', left: '823px' }}
-														>
-															<div className="item">
-																<span className="bottom_line-second">Mobile App</span>
-															</div>
-														</div>
-														<div
-															className="owl-item move-line animated owl-animated-in fadeIn active"
-															style={{ width: '823px' }}
-														>
-															<div className="item">
-																<span className="bottom_line-second">Online Shop</span>
-															</div>
-														</div>
-														<div className="owl-item" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Audience</span>
-															</div>
-														</div>
-														<div
-															className="owl-item animated owl-animated-in fadeIn"
-															style={{ width: '823px' }}
-														>
-															<div className="item">
-																<span className="bottom_line-second">Application</span>
-															</div>
-														</div>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Online Brand</span>
-															</div>
-														</div>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Mobile App</span>
-															</div>
-														</div>
-														<div className="owl-item cloned" style={{ width: '823px' }}>
-															<div className="item">
-																<span className="bottom_line-second">Online Shop</span>
+											<div className="custom1">
+												<div className="">
+													<div className="">
+														<div className="move-line" style={{ width: '823px' }}>
+															<div className="item ">
+																<span className="bottom_line-second">
+																	{this.state.curTxt}
+																</span>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div className="owl-nav disabled">
-													<button type="button" role="presentation" className="owl-prev">
-														<span aria-label="Previous">‹</span>
-													</button>
-													<button type="button" role="presentation" className="owl-next">
-														<span aria-label="Next">›</span>
-													</button>
-												</div>
-												<div className="owl-dots disabled" />
 											</div>
 										</h1>
 										<h1 className="title mobMar">you deserve</h1>
@@ -167,12 +111,7 @@ export default class BannerWrapper extends Component {
 												</a>
 											</li>
 											<li>
-												<a
-													href="javascript:void(0);"
-													title=""
-													className="normalText"
-													onClick="playFirstVideo();"
-												>
+												<a href="javascript:void(0);" title="" className="normalText">
 													Watch Reviews
 													<span>
 														<img
@@ -345,15 +284,17 @@ export default class BannerWrapper extends Component {
 										{/* Header Big Banner  */}
 										<div className="header-graphic">
 											{/* Graphic Seven */}
-											<div className="graphic-Big" />
-											<img
-												src="img/big-banner.png"
-												className="img-fluid"
-												alt=""
-												title=""
-												data-xblocker="passed"
-												style={{ visibility: 'visible' }}
-											/>
+											<div className="graphic-Big">
+												<img
+													src="img/big-banner.png"
+													className="img-fluid"
+													alt=""
+													title=""
+													id="phone_img"
+													data-xblocker="passed"
+													style={{ visibility: 'visible' }}
+												/>
+											</div>
 										</div>
 										{/* /Graphic Seven */}
 									</div>
